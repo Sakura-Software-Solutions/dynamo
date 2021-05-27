@@ -16,21 +16,12 @@ class BaseField(abc.ABC):
         self.validate(value)
         self._value = value
 
-    @value.setter
-    def raw_value(self, value):
-        self._value = self.clean(value)
-        self._raw_value = value
+    def dump(self):
+        return { self.TYPE: self.value }
 
-    @property
-    def serialized_value(self):
-        return self.value
-
-    def serialize(self):
-        return { self.TYPE: self.serialized_value }
+    def load(self, value):
+        self.validate(value)
+        self._value = value
 
     def validate(self, value):
         return
-
-    def clean(self, value):
-        self.validate(value)
-        return value

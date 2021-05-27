@@ -3,9 +3,13 @@ from fields.base import BaseField
 class Integer(BaseField):
     TYPE = 'N'
 
-    @property
-    def serialized_value(self):
-        return str(self.value)
+    def dump(self):
+        return { self.TYPE: str(self.value) }
+
+    def load(self, value):
+        loaded_value = int(value)
+        self.validate(loaded_value)
+        self._value = loaded_value
 
     def validate(self, value):
         if type(value) is not(int):
@@ -15,9 +19,13 @@ class Integer(BaseField):
 class Float(BaseField):
     TYPE = 'N'
 
-    @property
-    def serialized_value(self):
-        return str(self.value)
+    def dump(self):
+        return { self.TYPE: str(self.value) }
+
+    def load(self, value):
+        loaded_value = float(value)
+        self.validate(loaded_value)
+        self._value = loaded_value
 
     def validate(self, value):
         if type(value) is not(float):

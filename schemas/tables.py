@@ -60,7 +60,21 @@ class Table(BaseSchema):
         else:
             return False
 
-    def save(self):
-        table_name = self.table_name()
-        item = self.serialize()
-        return self._client.put_item(table_name, item)
+    @classmethod
+    def get_item(cls, **kwargs):
+        key = dict()
+
+        for field_name, value in kwargs.items():
+            field_type = getattr(cls, field_name).TYPE
+
+            if field_type == 'N':
+                value = str(value)
+
+            key[field_name] = { field_type: value }
+
+        item_dict = cls._client.get_item(cls.table_name(), key)
+
+        return cls.load(item_dict)
+
+    def save(self): 
+        return self._client.put_item(self.table_name(), self.dump())

@@ -1,7 +1,7 @@
 from fields.base import BaseField
 
 class Boolean(BaseField):
-    TYPE = 'B'
+    TYPE = 'BOOL'
 
     def validate(self, value):
         if type(value) is not(bool):
